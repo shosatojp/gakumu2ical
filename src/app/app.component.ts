@@ -16,16 +16,18 @@ export class AppComponent {
     onChange(event) {
         this.gakumu_src = event.target.value;
         this.classes = gakumu_parse.parse_gakumu(this.gakumu_src);
-
     }
 
     create_ical() {
         console.log(this.gakumu_src);
         const classes = gakumu_parse.parse_gakumu(this.gakumu_src);
+        if (!classes.length) {
+            alert('失敗');
+            return;
+        }
         console.log(classes);
         const events = gakumu_parse.instanciate(classes, gakumu_parse.semesters[0]);
         this.ical = gakumu_parse.make_ical(events);
-
     }
 
     download() {
