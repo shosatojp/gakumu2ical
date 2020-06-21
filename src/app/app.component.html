@@ -1,23 +1,84 @@
-<h1>電通大学務情報システムの履修登録の表からiCal生成</h1>
-<h2>
-    １．↓ここに履修登録画面の表をコピペする
-</h2>
-<div>
-    <textarea name="gakumu_src" [value]="gakumu_src" (input)="onChange($event)"></textarea>
-</div>
-<h2>
-    ２．↓うまくいくとここにパース結果が出る
-</h2>
-<div>
-    <div *ngFor="let e of classes">
-        <h3>{{e.classnum}} {{day_of_weeks[e.day_of_week]}}曜{{e.period}}限 {{e.subject}}</h3>
+<div class="content">
+
+    <h2>電通大 学務情報システムの履修登録の表からiCal生成（2020前期）</h2>
+    <h3>
+        ↓ここに履修登録画面の表をコピペする <a href="#howto">やりかた</a>
+    </h3>
+    <mat-form-field class="form-field" appearance="outline">
+        <mat-label>履修登録画面の表をコピペ</mat-label>
+        <textarea matInput name="gakumu_src" [value]="gakumu_src" (input)="onChange($event)"></textarea>
+    </mat-form-field>
+
+    <h3 *ngIf="gakumu_src.length">合計 {{classes.length}} 科目</h3>
+
+    <div class="buttons">
+        <button mat-raised-button color="primary" (click)="download()" [disabled]="!ical.length">ダウンロード(.iCal)</button>
     </div>
+
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>パース結果</mat-panel-title>
+                <mat-panel-description>{{gakumu_src.length ? (classes.length ? '成功': '失敗') : ''}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <table mat-table [dataSource]="classes" style="width: 100%;">
+                <ng-container matColumnDef="科目番号">
+                    <th mat-header-cell *matHeaderCellDef> 科目番号 </th>
+                    <td mat-cell *matCellDef="let element"> {{element.classnum}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="教科">
+                    <th mat-header-cell *matHeaderCellDef> 教科 </th>
+                    <td mat-cell *matCellDef="let element"> {{element.subject}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="時限">
+                    <th mat-header-cell *matHeaderCellDef> 時限 </th>
+                    <td mat-cell *matCellDef="let element"> {{element.period}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="曜日">
+                    <th mat-header-cell *matHeaderCellDef> 曜日 </th>
+                    <td mat-cell *matCellDef="let element"> {{day_of_weeks[element.day_of_week]}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="教員">
+                    <th mat-header-cell *matHeaderCellDef> 教員 </th>
+                    <td mat-cell *matCellDef="let element"> {{element.teachers}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="!!gakumu_src.length && !!ical.length">
+            <mat-expansion-panel-header>
+                <mat-panel-title>iCal形式テキスト</mat-panel-title>
+                <mat-panel-description>{{gakumu_src.length ? (ical.length ? '成功': '失敗') : ''}}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <pre>{{ical}}</pre>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <h3 id="howto">やりかた</h3>
+    <p>
+        表のあたりを適当にコピペする。（n限の文字と科目番号を目印にしてるので、「1限」の文字から全部入るように）
+    </p>
+    <div>
+        <img src="assets/001.png">
+    </div>
+    <p>
+        Googleカレンダーでは、「設定」->「エクスポート/インポート」でiCalと追加先のカレンダーを選択し、インポート。
+    </p>
+
+
+    <h3>参考文献</h3>
+    <ul>
+        <li>
+            <a href="https://www.uec.ac.jp/campus/academic/calendar/pdf/2020/gakuiki.pdf">電気通信大学 令和２年度学事日程（情報理工学域／情報理工学部）</a>
+        </li>
+    </ul>
 </div>
-<h2>
-    ３．↓Convert押してDownload押す
-</h2>
-<div>
-    <button (click)="create_ical()">convert</button>
-    <button (click)="download()" [disabled]="!ical.length">download</button>
-</div>
-<pre>{{ical}}</pre>
