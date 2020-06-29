@@ -14,7 +14,7 @@ export function parse_gakumu(src) {
     let lines = src.split('\n');
     let i = 0;
     while (1) {
-        let period: number = Number(re.exec(lines[i])?.[1] || '0');
+        let period: number = Number((re.exec(lines[i]) || [])[1] || '0');
         if (period) {
             i++;
             current_period = period;

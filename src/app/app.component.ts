@@ -20,7 +20,6 @@ export class AppComponent {
     displayedColumns: string[] = ['科目番号', '曜日', '時限', '教科', '教員'];
 
     onChange() {
-        this.gakumu_src = (document.querySelector('#gakumu_src') as HTMLInputElement).value;
         this.classes = gakumu_parse.parse_gakumu(this.gakumu_src);
         if (!this.classes.length) return;
         const events = gakumu_parse.instanciate(this.classes, this.semester);

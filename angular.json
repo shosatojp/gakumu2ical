@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "gakumu2ical": {
+    "gakumu2ical2": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,12 +17,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/gakumu2ical",
+            "outputPath": "dist/gakumu2ical2",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
+            "aot": false,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -46,6 +46,7 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -67,18 +68,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "gakumu2ical:build"
+            "browserTarget": "gakumu2ical2:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "gakumu2ical:build:production"
+              "browserTarget": "gakumu2ical2:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "gakumu2ical:build"
+            "browserTarget": "gakumu2ical2:build"
           }
         },
         "test": {
@@ -116,16 +117,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "gakumu2ical:serve"
+            "devServerTarget": "gakumu2ical2:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "gakumu2ical:serve:production"
+              "devServerTarget": "gakumu2ical2:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "gakumu2ical"
+  "defaultProject": "gakumu2ical2"
 }

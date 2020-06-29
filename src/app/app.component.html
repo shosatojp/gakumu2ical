@@ -18,7 +18,7 @@
     </h3>
     <mat-form-field class="form-field" appearance="outline">
         <mat-label>履修登録画面の表をコピペ</mat-label>
-        <textarea id="gakumu_src" matInput name="gakumu_src" [value]="gakumu_src"
+        <textarea [(ngModel)]="gakumu_src" matInput name="gakumu_src" [value]="gakumu_src"
             (input)="onChange()"></textarea>
     </mat-form-field>
 
