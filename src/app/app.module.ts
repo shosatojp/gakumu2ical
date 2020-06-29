@@ -8,6 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
+
 @NgModule({
     declarations: [
         AppComponent
@@ -20,6 +22,7 @@ import { MatTableModule } from '@angular/material/table';
         MatExpansionModule,
         MatChipsModule,
         MatTableModule,
+        MatSelectModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

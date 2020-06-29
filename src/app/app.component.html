@@ -1,12 +1,20 @@
 <div class="content">
 
-    <h2>電通大 学務情報システムの履修登録の表からiCal生成（2020前期）</h2>
+    <h2>電通大 学務情報システムの履修登録の表からiCal生成（2020前期対応）</h2>
     <ul>
         <li>大抵のカレンダーアプリにインポートできるiCal形式で休校日を除いた繰り返しイベントを作成</li>
         <li>サイト作者は、このサイトを利用して発生したいかなる損害も負わない</li>
     </ul>
     <h3>
-        ↓ここに履修登録画面の表をコピペする <a href="#howto">やりかた</a>
+        学期を選択する
+    </h3>
+    <mat-select [(value)]="semester" name="semester">
+        <mat-option *ngFor="let s of semesters" [value]="s">
+            {{s.year + '年度 ' + s.semester + (s.description?(' ('+s.description+')'):'')}}
+        </mat-option>
+    </mat-select>
+    <h3>
+        ↓ここに履修登録画面の表をコピペする <a href=" #howto">やりかた</a>
     </h3>
     <mat-form-field class="form-field" appearance="outline">
         <mat-label>履修登録画面の表をコピペ</mat-label>
@@ -61,7 +69,8 @@
         <mat-expansion-panel [expanded]="!!gakumu_src.length && !!ical.length">
             <mat-expansion-panel-header>
                 <mat-panel-title>iCal形式テキスト</mat-panel-title>
-                <mat-panel-description>{{gakumu_src.length ? (ical.length ? '成功': '失敗') : ''}}</mat-panel-description>
+                <mat-panel-description>{{gakumu_src.length ? (ical.length ? '成功': '失敗') : ''}}
+                </mat-panel-description>
             </mat-expansion-panel-header>
             <pre>{{ical}}</pre>
         </mat-expansion-panel>
@@ -82,7 +91,8 @@
     <h3>参考文献</h3>
     <ul>
         <li>
-            [1] <a href="https://www.uec.ac.jp/campus/academic/calendar/pdf/2020/gakuiki.pdf">電気通信大学 令和２年度学事日程（情報理工学域／情報理工学部）</a>
+            [1] <a href="https://www.uec.ac.jp/campus/academic/calendar/pdf/2020/gakuiki.pdf">電気通信大学
+                令和２年度学事日程（情報理工学域／情報理工学部）</a>
         </li>
     </ul>
 </div>

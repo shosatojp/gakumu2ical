@@ -50,8 +50,10 @@ export function parse_gakumu(src) {
 }
 
 export interface Semester {
+    id: number,
     year: number,
     semester: string,
+    description: string,
     start: Date,
     end: Date,
     dayoff: Date[],
@@ -64,8 +66,10 @@ export function equal_date(d1: Date, d2: Date) {
 }
 
 export const semesters: Semester[] = [{
+    id: 0,
     year: 2020,
     semester: '前期',
+    description: 'K課程以外',
     start: new Date(2020, 5 - 1, 7),
     end: new Date(2020, 9 - 1, 11),
     dayoff: [
@@ -79,6 +83,26 @@ export const semesters: Semester[] = [{
         new Date("2020-08-24T00:00:00"),
         new Date("2020-08-25T00:00:00"),
         new Date("2020-08-27T00:00:00"),
+        new Date("2020-08-29T00:00:00"),
+    ]
+}, {
+    id: 1,
+    year: 2020,
+    semester: '前期',
+    description: 'K課程',
+    start: new Date(2020, 5 - 1, 7),
+    end: new Date(2020, 9 - 1, 11),
+    dayoff: [
+        new Date("2020-08-10T00:00:00"),
+        new Date("2020-08-19T00:00:00"),
+        new Date("2020-08-20T00:00:00"),
+        new Date("2020-08-21T00:00:00"),
+        new Date("2020-08-22T00:00:00"),
+        new Date("2020-08-23T00:00:00"),
+        new Date("2020-08-24T00:00:00"),
+        new Date("2020-08-25T00:00:00"),
+        new Date("2020-08-27T00:00:00"),
+        new Date("2020-08-28T00:00:00"),
         new Date("2020-08-29T00:00:00"),
     ]
 }];
