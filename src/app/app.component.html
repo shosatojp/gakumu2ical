@@ -8,17 +8,18 @@
     <h3>
         学期を選択する
     </h3>
-    <mat-select [(value)]="semester" name="semester">
+    <mat-select [(value)]="semester" name="semester" (selectionChange)="onChange()">
         <mat-option *ngFor="let s of semesters" [value]="s">
             {{s.year + '年度 ' + s.semester + (s.description?(' ('+s.description+')'):'')}}
         </mat-option>
     </mat-select>
     <h3>
-        ↓ここに履修登録画面の表をコピペする <a href=" #howto">やりかた</a>
+        ↓ここに履修登録画面の表をコピペする <a href="#howto">やりかた</a>
     </h3>
     <mat-form-field class="form-field" appearance="outline">
         <mat-label>履修登録画面の表をコピペ</mat-label>
-        <textarea matInput name="gakumu_src" [value]="gakumu_src" (input)="onChange($event)"></textarea>
+        <textarea id="gakumu_src" matInput name="gakumu_src" [value]="gakumu_src"
+            (input)="onChange()"></textarea>
     </mat-form-field>
 
     <h3 *ngIf="gakumu_src.length">合計 {{classes.length}} 科目</h3>

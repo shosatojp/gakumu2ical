@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import * as gakumu_parse from '../lib/gakumu_parse';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionPanel } from '@angular/material/expansion';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectModule, MatSelect } from '@angular/material/select';
 
 @Component({
     selector: 'app-root',
@@ -18,17 +18,14 @@ export class AppComponent {
     semesters: gakumu_parse.Semester[] = gakumu_parse.semesters;
 
     displayedColumns: string[] = ['科目番号', '曜日', '時限', '教科', '教員'];
-    @ViewChild('panelical') panelical: MatExpansionPanel;
 
-    onChange(event) {
-        this.gakumu_src = event.target.value;
+    onChange() {
+        this.gakumu_src = (document.querySelector('#gakumu_src') as HTMLInputElement).value;
         this.classes = gakumu_parse.parse_gakumu(this.gakumu_src);
         if (!this.classes.length) return;
         const events = gakumu_parse.instanciate(this.classes, this.semester);
         this.ical = gakumu_parse.make_ical(events);
         if (!this.ical.length) return;
-
-        this.panelical.expanded = true;
     }
 
     create_ical() {
