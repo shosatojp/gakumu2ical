@@ -39,13 +39,24 @@ export class AppComponent {
         this.ical = gakumu_parse.make_ical(events);
     }
 
-    download() {
-        const blob = new Blob([this.ical]);
+    _download(content: string, filename: string) {
+        const blob = new Blob([content]);
         const url = URL.createObjectURL(blob);
 
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'risyu.ical';
+        a.download = filename;
         a.click();
+    }
+
+    download() {
+        this._download(this.ical, 'risyu.ical');
+    }
+
+    download_spare() {
+        this._download(
+            gakumu_parse.make_ical(gakumu_parse.make_spare_events(this.semester)),
+            'spare_dates.ical'
+        )
     }
 }

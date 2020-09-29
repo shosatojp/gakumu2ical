@@ -57,6 +57,7 @@ export interface Semester {
     start: Date,
     end: Date,
     dayoff: Date[],
+    spare_dates?: Date[]
 }
 
 export function equal_date(d1: Date, d2: Date) {
@@ -66,6 +67,38 @@ export function equal_date(d1: Date, d2: Date) {
 }
 
 export const semesters: Semester[] = [{
+    id: 2,
+    year: 2020,
+    semester: '後期',
+    description: '',
+    start: new Date(2020, 10 - 1, 1),
+    end: new Date(2021, 2 - 1, 6),
+    dayoff: [
+        new Date("2020-11-03T00:00:00"),
+        new Date("2020-11-23T00:00:00"),
+        new Date("2020-12-23T00:00:00"),
+        new Date("2020-12-24T00:00:00"),
+        new Date("2020-12-25T00:00:00"),
+        new Date("2020-12-26T00:00:00"),
+        new Date("2020-12-27T00:00:00"),
+        new Date("2020-12-28T00:00:00"),
+        new Date("2020-12-29T00:00:00"),
+        new Date("2020-12-30T00:00:00"),
+        new Date("2020-12-31T00:00:00"),
+        new Date("2021-01-01T00:00:00"),
+        new Date("2021-01-02T00:00:00"),
+        new Date("2021-01-03T00:00:00"),
+        new Date("2021-01-11T00:00:00"),
+    ],
+    spare_dates: [
+        new Date("2020-11-14T00:00:00"),
+        new Date("2020-12-12T00:00:00"),
+        new Date("2021-01-09T00:00:00"),
+        new Date("2021-02-08T00:00:00"),
+        new Date("2021-02-09T00:00:00"),
+        new Date("2021-02-10T00:00:00"),
+    ]
+}, {
     id: 0,
     year: 2020,
     semester: '前期',
@@ -107,16 +140,16 @@ export const semesters: Semester[] = [{
     ]
 }];
 
-export function set_period_time(date: Date, period: number) {
+export function set_period_time(date: Date, period: number, end_time = false) {
     const t = [
-        [9, 0],
-        [10, 40],
-        [13, 0],
-        [14, 40],
-        [16, 15],
+        [9, 0, 90],
+        [10, 40, 90],
+        [13, 0, 90],
+        [14, 40, 90],
+        [16, 15, 90],
     ][period - 1];
     date.setHours(t[0]);
-    date.setMinutes(t[1]);
+    date.setMinutes(t[1] + (end_time && t[2]));
     return date
 }
 
@@ -149,8 +182,7 @@ export function instanciate(classes: Class[], semester: Semester) {
             }
         }
 
-        let endtime = set_period_time(new Date(start), cls.period);
-        endtime.setMinutes(endtime.getMinutes() + 90);
+        let endtime = set_period_time(new Date(start), cls.period, true);
         const days = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
         events.push({
             DTSTART: to_iso_ical_string(set_period_time(new Date(start), cls.period)),
@@ -190,8 +222,14 @@ ${events_str}
 END:VCALENDAR`
 }
 
-
-// let src = fs.readFileSync('src/lib/input.txt', { encoding: 'utf-8' });
-// let classes = parse_gakumu(src);
-// let events = instanciate(classes, semesters[0]);
-// console.log(make_ical(events));
+export function make_spare_events(semester: Semester) {
+    return semester.spare_dates.map(e => {
+        const end_date = new Date(e.getTime());
+        end_date.setDate(e.getDate() + 1);
+        return {
+            DTSTART: to_iso_ical_string(e),
+            DTEND: to_iso_ical_string(end_date),
+            SUMMARY: '授業等調整日',
+        };
+    });
+}
